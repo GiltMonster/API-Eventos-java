@@ -19,8 +19,8 @@ public class GreetingResource {
 
     @Path("eventos")
     @Operation(
-            summary = "Rotas referentes a eventos",
-            description = "Essa rota é responsável por gerenciar os eventos do sistema."
+        summary = "Rotas referentes a eventos",
+        description = "Essa rota é responsável por gerenciar os eventos do sistema."
     )
     public Class<EventoResource> eventos() {
         return EventoResource.class;
