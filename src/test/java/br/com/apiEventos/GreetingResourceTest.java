@@ -16,7 +16,7 @@ class GreetingResourceTest {
         given()
                 .when().get("/usuarios")
                 .then()
-                .statusCode(200);
+                .statusCode(204);
     }
 
     @Test
