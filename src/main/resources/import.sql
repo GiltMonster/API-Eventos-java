@@ -6,17 +6,7 @@
 -- alter sequence myentity_seq restart with 4;
 
 -- Usuários:
-insert into usuario (nome, sobreNome, email, senha) values('Lucas', 'Santos', 'lucas@gmail.com', '123456');
-insert into usuario (nome, sobreNome, email, senha) values('Ana', 'Silva', 'ana.silva@exemplo.com', 'senha123');
-insert into usuario (nome, sobreNome, email, senha) values('Pedro', 'Oliveira', 'pedro.oliveira@exemplo.com', 'outrasenha');
-insert into usuario (nome, sobreNome, email, senha) values('Maria', 'Souza', 'maria.souza@exemplo.com', 'senha456' );
-insert into usuario (nome, sobreNome, email, senha) values('João', 'Pereira', 'joao.pereira@exemplo.com', 'senhadificil');
-insert into usuario (nome, sobreNome, email, senha) values('Juliana', 'Gomes', 'juliana.gomes@exemplo.com', 'minhasenha');
-insert into usuario (nome, sobreNome, email, senha) values('Rafael', 'Costa', 'rafael.costa@exemplo.com', 'senha789');
-insert into usuario (nome, sobreNome, email, senha) values('Fernanda', 'Rodrigues', 'fernanda.rodrigues@exemplo.com', 'senhaforte');
-insert into usuario (nome, sobreNome, email, senha) values('Gustavo', 'Almeida', 'gustavo.almeida@exemplo.com', 'senha1010');
-insert into usuario (nome, sobreNome, email, senha) values('Camila', 'Machado', 'camila.machado@exemplo.com', 'senha1111');
-insert into usuario (nome, sobreNome, email, senha) values('Bruno', 'Ribeiro', 'bruno.ribeiro@exemplo.com', 'senha1212');
+--insert into usuario (nome, sobreNome, email, senha) values('Lucas', 'Santos', 'lucas@gmail.com', '123456');
 
 --Eventos:
 insert into evento (nome, descricao, dataInicio, dataFim, localizacao) values('Grande Show', 'Show de uma banda famosa.', '2023-11-15', '2023-11-15', 'Estádio Municipal');

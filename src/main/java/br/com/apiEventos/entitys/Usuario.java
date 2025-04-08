@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.smallrye.common.constraint.NotNull;
 import jakarta.persistence.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "usuario")
@@ -23,6 +24,12 @@ public class Usuario extends PanacheEntityBase {
     public Usuario() {
     }
 
+    public Usuario(String nome, String sobreNome, String email) {
+        this.nome = nome;
+        this.sobreNome = sobreNome;
+        this.email = email;
+    }
+
     public Usuario(String nome, String sobreNome, String email, String senha) {
         this.nome = nome;
         this.sobreNome = sobreNome;
@@ -38,7 +45,7 @@ public class Usuario extends PanacheEntityBase {
         if (senha == null || senha.isEmpty()) {
             throw new IllegalArgumentException("Senha não pode ser nula ou vazia");
         } else {
-            this.senha = senha;
+            this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
         }
     }
 
