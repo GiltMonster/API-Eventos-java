@@ -34,10 +34,6 @@ public class Evento extends PanacheEntityBase {
         return evento_id;
     }
 
-    public void setEvento_id(Long evento_id) {
-        this.evento_id = evento_id;
-    }
-
     public String getNome() {
         return nome;
     }
