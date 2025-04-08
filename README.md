@@ -1,79 +1,153 @@
-# code-with-quarkus
+# 📅 API de Eventos com Quarkus
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Essa é uma API REST desenvolvida com **Quarkus** para gerenciamento de **eventos** e **inscrições de usuários**.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 🧑‍💻 Autor
 
-## Running the application in dev mode
+- **Lucas S. Campos**
+- **Data:** 06/04/2025
+- **Versão:** 1.0.0
+- **Repositório:** [API Eventos TSI](https://github.com/seu-usuario/seu-repo)
 
-You can run your application in dev mode that enables live coding using:
+---
 
-```shell script
+## 🚀 Tecnologias Utilizadas
+
+- Java + Quarkus
+- JPA / Hibernate
+- Banco de Dados (H2, PostgreSQL, etc)
+- Swagger (documentação via OpenAPI)
+- BCrypt (criptografia de senhas)
+
+---
+
+## 🛠️ Como rodar localmente
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
+```
+
+2. Execute o projeto com:
+
+```bash
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+> A API será disponibilizada em: `http://localhost:8080`
 
-## Packaging and running the application
+---
 
-The application can be packaged using:
+## 📚 Documentação Swagger
 
-```shell script
-./mvnw package
+Acesse via:
+
+```
+http://localhost:8080/q/openapi
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Você verá uma interface como esta:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+![Swagger UI](docs/swagger.png)
 
-If you want to build an _über-jar_, execute the following command:
+---
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+## 🔐 Cadastro de Usuários
+
+Usuários são cadastrados com os campos:
+
+```sql
+insert into usuario (nome, sobreNome, email, senha) values('Lucas', 'Santos', 'lucas@gmail.com', '123456');
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+> ⚠️ As senhas cadastradas diretamente no banco **não estão criptografadas**. Ao usar login ou trocar a senha via API, a criptografia com BCrypt é aplicada.
 
-## Creating a native executable
+---
 
-You can create a native executable using:
+## 📦 Endpoints Principais
 
-```shell script
-./mvnw package -Dnative
+### 🎟️ Evento Resource
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `GET`  | `/eventos` | Listar todos os eventos |
+| `POST` | `/eventos` | Cadastrar novo evento |
+| `PUT`  | `/eventos` | Atualizar evento existente |
+| `DELETE` | `/eventos/deletarEvento/{id}` | Deletar evento |
+| `GET`  | `/eventos/findEvento/{id}` | Buscar evento por ID |
+
+---
+
+### 🙋‍♂️ Inscricao Resource
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/inscricoes/realizaInscricao/{userId}/{eventoId}` | Inscrever usuário em evento |
+| `GET`  | `/inscricoes/inscricoesUsuario/estaInscrito/{userId}/{eventoId}` | Verifica se usuário está inscrito |
+| `GET`  | `/inscricoes/inscricoesUsuario/{userId}` | Lista todas as inscrições de um usuário |
+| `PUT`  | `/inscricoes/inscricoesUsuario` | Atualiza inscrição de um usuário |
+| `DELETE` | `/inscricoes/inscricoesUsuario/{userId}/{eventoId}` | Remove a inscrição de um usuário |
+
+---
+
+### 👤 Usuario Resource
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `GET`  | `/usuarios` | Listar todos os usuários |
+| `POST` | `/usuarios` | Cadastrar novo usuário |
+| `PUT`  | `/usuarios/atualizarSenha/{id}` | Atualizar senha do usuário |
+| `PUT`  | `/usuarios/atualizarUsuario/{id}` | Atualizar dados do usuário |
+| `DELETE` | `/usuarios/deleteUsuario/{id}` | Deletar usuário |
+| `GET`  | `/usuarios/findUsuario/{id}` | Buscar usuário por ID |
+| `POST` | `/usuarios/login` | Login de usuário |
+
+---
+
+## ☁️ Deploy no Railway
+
+Você pode deployar esta API no [Railway](https://railway.app/) rapidamente!
+
+### ✅ Pré-requisitos
+
+- Conta Railway
+- Projeto no GitHub
+
+### 🚀 Passos para deploy
+
+1. Suba seu projeto no GitHub
+
+2. No Railway, clique em **New Project** > **Deploy from GitHub Repo**
+
+3. Configure:
+
+- **Build command:**
+  ```bash
+  ./mvnw clean package -DskipTests
+  ```
+
+- **Start command:**
+  ```bash
+  java -jar target/quarkus-app/quarkus-run.jar
+  ```
+
+4. Verifique se no `application.properties` você tem:
+
+```properties
+quarkus.http.host=0.0.0.0
+quarkus.http.port=${PORT:8080}
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+5. Railway irá gerar uma URL pública para sua API. Exemplo:
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+```
+https://api-eventos.up.railway.app/q/openapi
 ```
 
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
+---
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+## 📄 Licença
 
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- JDBC Driver - H2 ([guide](https://quarkus.io/guides/datasource)): Connect to the H2 database via JDBC
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-- JDBC Driver - MySQL ([guide](https://quarkus.io/guides/datasource)): Connect to the MySQL database via JDBC
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+Apache 2.0
