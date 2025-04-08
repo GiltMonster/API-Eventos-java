@@ -37,7 +37,7 @@ cd seu-repo
 ./mvnw quarkus:dev
 ```
 
-> A API será disponibilizada em: `[Latest Version](https://api-eventos-tsi-production.up.railway.app/documentacao/)`
+> A API será disponibilizada em: `https://api-eventos-tsi-production.up.railway.app/documentacao/`
 
 ---
 
@@ -46,7 +46,7 @@ cd seu-repo
 Acesse via:
 
 ```
-[Latest Version](https://api-eventos-tsi-production.up.railway.app/documentacao/)
+https://api-eventos-tsi-production.up.railway.app/documentacao/
 ```
 
 ---
