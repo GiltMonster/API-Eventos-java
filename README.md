@@ -8,6 +8,7 @@ Essa é uma API REST desenvolvida com **Quarkus** para gerenciamento de **evento
 - **Data:** 06/04/2025
 - **Versão:** 1.0.0
 - **Repositório:** [API Eventos TSI](https://github.com/seu-usuario/seu-repo)
+- **Latest Version deployed:** [Latest Version](https://api-eventos-tsi-production.up.railway.app/documentacao/)
 
 ---
 
@@ -26,7 +27,7 @@ Essa é uma API REST desenvolvida com **Quarkus** para gerenciamento de **evento
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
+git clone https://github.com/GiltMonster/API-Eventos-TSI
 cd seu-repo
 ```
 
@@ -36,7 +37,7 @@ cd seu-repo
 ./mvnw quarkus:dev
 ```
 
-> A API será disponibilizada em: `http://localhost:8080`
+> A API será disponibilizada em: `[Latest Version](https://api-eventos-tsi-production.up.railway.app/documentacao/)`
 
 ---
 
@@ -45,12 +46,8 @@ cd seu-repo
 Acesse via:
 
 ```
-http://localhost:8080/q/openapi
+[Latest Version](https://api-eventos-tsi-production.up.railway.app/documentacao/)
 ```
-
-Você verá uma interface como esta:
-
-![Swagger UI](docs/swagger.png)
 
 ---
 
