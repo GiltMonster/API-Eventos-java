@@ -7,7 +7,7 @@ Essa é uma API REST desenvolvida com **Quarkus** para gerenciamento de **evento
 - **Lucas S. Campos**
 - **Data:** 06/04/2025
 - **Versão:** 1.0.0
-- **Repositório:** [API Eventos TSI](https://github.com/seu-usuario/seu-repo)
+- **Repositório:** [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-java)
 - **Latest Version deployed:** [Latest Version](https://api-eventos-tsi-production.up.railway.app/documentacao/)
 
 ---
