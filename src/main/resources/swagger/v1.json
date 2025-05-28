@@ -3,7 +3,7 @@
   "info": {
     "title": "API de Eventos feito com Quarkus",
     "version": "1.0.0",
-    "description": "API de Eventos feita com Quarkus \n - Autor: [Lucas S. Campos](https://www.linkedin.com/in/lucassantosc/) \n - Data: 06/04/2025 \n - Versão: 1.0.0 \n - Repositório: [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-TSI)",
+    "description": "API de Eventos feita com Quarkus \n - Autor: [Lucas S. Campos](https://www.linkedin.com/in/lucassantosc/) \n - Data: 06/04/2025 \n - Versão: 1.0.0 \n - Repositório: [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-java)",
     "termsOfService": "https://exemplo.com/termos",
     "contact": {
       "name": "Dev API - Support",
