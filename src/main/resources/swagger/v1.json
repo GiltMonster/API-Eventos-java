@@ -1,14 +1,27 @@
 {
   "openapi": "3.1.0",
+  "tags": [
+        {
+        "name": "Evento Resource",
+        "description": "Gerencia eventos"
+        },
+        {
+        "name": "Inscricao Resource",
+        "description": "Gerencia inscrições de usuários em eventos"
+        },
+        {
+        "name": "Usuario Resource",
+        "description": "Gerencia usuários do sistema"
+        }
+    ],
   "info": {
-    "title": "API de Eventos feito com Quarkus",
+    "title": "Mais informações sobre a API",
     "version": "1.0.0",
-    "description": "API de Eventos feita com Quarkus \n - Autor: [Lucas S. Campos](https://www.linkedin.com/in/lucassantosc/) \n - Data: 06/04/2025 \n - Versão: 1.0.0 \n - Repositório: [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-java)",
+    "description": "API de Eventos feita com Quarkus \n - Autor: [Lucas S. Campos](https://www.linkedin.com/in/lucassantosc/) \n - Data: 06/04/2025 \n - Versão: 1.0.0 \n - Repositório: [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-java) \n - ⚠️ **Atenção**: Esta versão da API ira se tornar depreciada em breve, por favor, utilize a versão mais recente da API. \n - ⚠️ **Atenção**: A V1 dessa API não possui autenticação, portanto, qualquer pessoa pode acessar os endpoints.",
     "termsOfService": "https://exemplo.com/termos",
     "contact": {
       "name": "Dev API - Support",
-      "email": "lucas.scampos4@senacsp.edu.br",
-      "url": "https://exemplo.com/suporte"
+      "email": "lucas.scampos4@senacsp.edu.br"
     },
     "license": {
       "name": "Apache 2.0",
@@ -69,23 +82,6 @@
     }
   },
   "paths": {
-    "/docs/{version}": {
-      "get": {
-        "parameters": [
-          {
-            "name": "version",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": { "description": "OK" }
-        },
-        "summary": "Get Swagger Doc",
-        "tags": ["Swagger Doc Resource"]
-      }
-    },
     "/eventos": {
       "get": {
         "summary": "Listar todos os eventos",

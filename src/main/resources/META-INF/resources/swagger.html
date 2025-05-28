@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Swagger com Múltiplas Versões</title>
-    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
-    <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; }
-        #versionSelector { margin: 15px; font-size: 16px; padding: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Swagger com Múltiplas Versões</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css.map">
+  <link rel="stylesheet" href="./style.css" type="text/css">
 </head>
+
 <body>
 
-<select id="versionSelector">
-    <option value="v1">Versão 1.0</option>
-    <option value="v2" selected>Versão 2.0</option>
-</select>
+  <header>
+    <div>
+      <h1>Documentação da API de Eventos</h1>
 
-<div id="swagger-ui"></div>
+      <div>
+        <label for="versionSelector">Selecione a versão da API:</label>
+        <select id="versionSelector">
+          <option value="v1">Versão 1.0</option>
+          <option value="v2">Versão 2.0</option>
+        </select>
+      </div>
+    </div>
+  </header>
 
-<script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
-<script>
-    // Inicialmente carrega v2
+  <div id="swagger-ui">
+
+  </div>
+
+  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+  <script>
     const ui = SwaggerUIBundle({
-      url: `/docs/v2`,
+      url: `/docs/v1`,
       dom_id: '#swagger-ui',
     });
 
-    // Muda a versão quando o select for alterado
     const selector = document.getElementById('versionSelector');
     selector.addEventListener('change', function () {
       const selectedVersion = this.value;
       ui.specActions.updateUrl(`/docs/${selectedVersion}`);
       ui.specActions.download();
     });
-</script>
+  </script>
 </body>
+
 </html>

@@ -1,0 +1,515 @@
+/* ========================================
+   VARIÁVEIS CSS E CONFIGURAÇÕES BASE
+======================================== */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-dark: #0f172a;
+  --bg-card: rgba(255, 255, 255, 0.8);
+
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-white: #ffffff;
+
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   RESET E CONFIGURAÇÕES GLOBAIS
+======================================== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  background: linear-gradient(
+    135deg,
+    var(--bg-secondary) 0%,
+    var(--bg-primary) 100%
+  );
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* ========================================
+   HEADER
+======================================== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.508);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  transition: var(--transition-slow);
+}
+
+header:hover {
+  background: rgba(255, 255, 255, 0.799);
+  box-shadow: var(--shadow-lg);
+}
+
+header > div {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  gap: 2rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  letter-spacing: -0.025em;
+}
+
+header h1::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 190px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 2px;
+  animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 190px;
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   SELETOR DE VERSÃO
+======================================== */
+header > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 260px;
+}
+
+header label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+#versionSelector {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0.5rem 3rem 0.5rem 0.3rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  position: relative;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6,9 12,15 18,9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.75rem) center;
+  background-size: 16px;
+}
+
+#versionSelector:hover {
+  border-color: var(--primary);
+  background: var(--bg-primary);
+  transform: translateY(-3px);
+  background-repeat: no-repeat;
+  background-position: calc(100% - 0.75rem) top;
+  background-size: 16px;
+  box-shadow: var(--shadow);
+}
+
+#versionSelector:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background: var(--bg-primary);
+  background-position: calc(100% - 0.75rem) bottom;
+  background-size: 16px;
+  box-shadow: var(--shadow);
+}
+
+#versionSelector option {
+  padding: 0.5rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+======================================== */
+#swagger-ui {
+  margin-top: 120px;
+  padding: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.version-stamp{
+  background-color:  var(--primary) !important;
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   CUSTOMIZAÇÃO DO SWAGGER UI
+======================================== */
+.swagger-ui {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif !important;
+}
+
+.swagger-ui .topbar {
+  display: none !important;
+}
+
+.swagger-ui .info {
+  margin: 2rem 0 !important;
+  padding: 2rem !important;
+  background: var(--bg-card) !important;
+  border-radius: var(--radius-xl) !important;
+  border: 1px solid var(--border) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.info::hover {
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.swagger-ui .info .title {
+  color: var(--text-primary) !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+  margin-bottom: 1rem !important;
+}
+
+.swagger-ui .info .description {
+  color: var(--text-secondary) !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+.swagger-ui .scheme-container {
+  background: var(--bg-card) !important;
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  padding: 1.5rem !important;
+  margin: 1rem 0 !important;
+}
+
+.swagger-ui .opblock-tag {
+  border-radius: var(--radius-lg) !important;
+  margin: 1rem 0 !important;
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.swagger-ui .opblock-tag-section {
+  background: var(--bg-card) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.swagger-ui .opblock.opblock-get {
+  border-color: var(--success) !important;
+  background: rgba(16, 185, 129, 0.05) !important;
+}
+
+.swagger-ui .opblock.opblock-post {
+  border-color: var(--primary) !important;
+  background: rgba(99, 102, 241, 0.05) !important;
+}
+
+.swagger-ui .opblock.opblock-put {
+  border-color: var(--warning) !important;
+  background: rgba(245, 158, 11, 0.05) !important;
+}
+
+.swagger-ui .opblock.opblock-delete {
+  border-color: var(--error) !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+}
+
+.swagger-ui .opblock .opblock-summary {
+  border-radius: var(--radius) !important;
+  transition: var(--transition) !important;
+}
+
+.swagger-ui .opblock .opblock-summary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.swagger-ui .btn {
+  border-radius: var(--radius) !important;
+  font-weight: 500 !important;
+  transition: var(--transition) !important;
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+.swagger-ui .btn.execute {
+  background: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--text-white) !important;
+}
+
+.swagger-ui .btn.execute:hover {
+  background: var(--primary-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.swagger-ui .parameters-container {
+  background: var(--bg-secondary) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 1.5rem !important;
+  margin: 1rem 0 !important;
+  border: 1px solid var(--border) !important;
+}
+
+.swagger-ui .responses-wrapper {
+  background: var(--bg-secondary) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 1.5rem !important;
+  margin: 1rem 0 !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ========================================
+   SCROLLBAR CUSTOMIZADO
+======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+@media (max-width: 768px) {
+  header > div {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  header > div > div {
+    min-width: auto;
+    width: 100%;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  #swagger-ui {
+    margin-top: 180px;
+    padding: 1rem;
+  }
+
+  .swagger-ui .info {
+    padding: 1.5rem !important;
+  }
+
+  .swagger-ui .info .title {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  header > div {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+  }
+
+  #swagger-ui {
+    margin-top: 200px;
+    padding: 0.75rem;
+  }
+
+  .swagger-ui .parameters-container,
+  .swagger-ui .responses-wrapper {
+    padding: 1rem !important;
+  }
+}
+
+/* ========================================
+   ANIMAÇÕES E MICROINTERAÇÕES
+======================================== */
+.swagger-ui .opblock {
+  transition: var(--transition) !important;
+}
+
+.swagger-ui .opblock:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.swagger-ui .parameter__name {
+  font-weight: 600 !important;
+  color: var(--primary) !important;
+}
+
+.swagger-ui .parameter__type {
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+.swagger-ui .response-col_status {
+  font-weight: 600 !important;
+}
+
+.swagger-ui .response-col_description {
+  color: var(--text-secondary) !important;
+}
+
+/* ========================================
+   LOADING STATE
+======================================== */
+.swagger-ui .loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+}
+
+.swagger-ui .loading-container::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   UTILITÁRIOS
+======================================== */
+.fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
