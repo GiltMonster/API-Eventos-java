@@ -1,0 +1,545 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API de Eventos feito com Quarkus",
+    "version": "1.0.0",
+    "description": "API de Eventos feita com Quarkus \n - Autor: [Lucas S. Campos](https://www.linkedin.com/in/lucassantosc/) \n - Data: 06/04/2025 \n - Versão: 1.0.0 \n - Repositório: [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-TSI)",
+    "termsOfService": "https://exemplo.com/termos",
+    "contact": {
+      "name": "Dev API - Support",
+      "email": "lucas.scampos4@senacsp.edu.br",
+      "url": "https://exemplo.com/suporte"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "components": {
+    "schemas": {
+      "AtualizarSenhaUsuario": {
+        "type": "object",
+        "properties": {
+          "senhaAtual": { "type": "string" },
+          "novaSenha": { "type": "string" }
+        }
+      },
+      "AtualizarUsuarioDTO": {
+        "type": "object",
+        "properties": {
+          "nome": { "type": "string" },
+          "sobreNome": { "type": "string" },
+          "email": { "type": "string" }
+        }
+      },
+      "Date": {
+        "type": "string",
+        "format": "date",
+        "examples": ["2022-03-10"]
+      },
+      "Evento": {
+        "type": "object",
+        "properties": {
+          "evento_id": { "type": "integer", "format": "int64" },
+          "nome": { "type": "string" },
+          "descricao": { "type": "string" },
+          "dataInicio": { "$ref": "#/components/schemas/Date" },
+          "dataFim": { "$ref": "#/components/schemas/Date" },
+          "localizacao": { "type": "string" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "senha": { "type": "string" }
+        }
+      },
+      "Usuario": {
+        "type": "object",
+        "description": "Entidade que representa um usuário do sistema",
+        "properties": {
+          "user_id": { "type": "integer", "format": "int64" },
+          "nome": { "type": "string" },
+          "sobreNome": { "type": "string" },
+          "email": { "type": "string" },
+          "senha": { "type": "string" }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/docs/{version}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" }
+        },
+        "summary": "Get Swagger Doc",
+        "tags": ["Swagger Doc Resource"]
+      }
+    },
+    "/eventos": {
+      "get": {
+        "summary": "Listar todos os eventos",
+        "description": "Essa rota é responsável por listar todos os eventos do sistema.",
+        "responses": {
+          "200": {
+            "description": "Eventos encontrados com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Eventos encontrados": {
+                    "description": "Lista de eventos encontrados",
+                    "value": [
+                      {
+                        "evento_id": 1,
+                        "nome": "Evento 1",
+                        "descricao": "Descrição do evento 1",
+                        "dataInicio": "2023-10-01T00:00:00Z",
+                        "dataFim": "2023-10-02T00:00:00Z",
+                        "localizacao": "Localização do evento 1"
+                      },
+                      {
+                        "evento_id": 2,
+                        "nome": "Evento 2",
+                        "descricao": "Descrição do evento 2",
+                        "dataInicio": "2023-10-03T00:00:00Z",
+                        "dataFim": "2023-10-04T00:00:00Z",
+                        "localizacao": "Localização do evento 2"
+                      }
+                    ]
+                  },
+                  "Nenhum evento encontrado": {
+                    "description": "Nenhum evento encontrado no sistema"
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/Evento" }
+              }
+            }
+          },
+          "204": { "description": "Nenhum evento encontrado" }
+        },
+        "tags": ["Evento Resource"]
+      },
+      "post": {
+        "summary": "Cadastrar evento",
+        "description": "Essa rota é responsável por cadastrar um evento no sistema.Se o cadastro for realizado com sucesso, retorna 201.Se o cadastro não for realizado, retorna 400.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Evento" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Evento cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Evento cadastrado": {
+                    "description": "Evento cadastrado com sucesso",
+                    "value": {
+                      "nome": "Evento 1",
+                      "descricao": "Descrição do evento 1",
+                      "dataInicio": "2023-10-01T00:00:00Z",
+                      "dataFim": "2023-10-02T00:00:00Z",
+                      "localizacao": "Localização do evento 1"
+                    }
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/Evento" }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro ao cadastrar evento",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Erro ao cadastrar evento": {
+                    "description": "Erro ao cadastrar evento",
+                    "value": { "message": "Erro ao cadastrar evento" }
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/Evento" }
+              }
+            }
+          }
+        },
+        "tags": ["Evento Resource"]
+      },
+      "put": {
+        "summary": "Atualizar evento",
+        "description": "Essa rota é responsável por atualizar um evento no sistema.Se o evento for atualizado com sucesso, retorna 200.Se o evento não for encontrado, retorna 404.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Evento" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "Evento atualizado com sucesso" },
+          "404": { "description": "Evento não encontrado" },
+          "400": { "description": "Bad Request" }
+        },
+        "tags": ["Evento Resource"]
+      }
+    },
+    "/eventos/deletarEvento/{id}": {
+      "delete": {
+        "summary": "Deletar evento",
+        "description": "Essa rota é responsável por deletar um evento do sistema.Se o evento for deletado com sucesso, retorna 200.Se o evento não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "description": "ID do evento a ser deletado",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Evento deletado com sucesso" },
+          "404": { "description": "Evento não encontrado" }
+        },
+        "tags": ["Evento Resource"]
+      }
+    },
+    "/eventos/findEvento/{id}": {
+      "get": {
+        "summary": "Buscar evento por ID",
+        "description": "Essa rota é responsável por buscar um evento pelo ID.Se o ID não for encontrado, retorna 404.OBS: O ID é gerado automaticamente pelo banco de dados, é unico e é numérico.",
+        "parameters": [
+          {
+            "description": "ID do evento a ser buscado",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evento encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Evento encontrado": {
+                    "description": "Evento encontrado com sucesso",
+                    "value": {
+                      "evento_id": 1,
+                      "nome": "Evento 1",
+                      "descricao": "Descrição do evento 1",
+                      "dataInicio": "2023-10-01T00:00:00Z",
+                      "dataFim": "2023-10-02T00:00:00Z",
+                      "localizacao": "Localização do evento 1"
+                    }
+                  }
+                },
+                "schema": { "$ref": "#/components/schemas/Evento" }
+              }
+            }
+          },
+          "404": { "description": "Evento não encontrado" }
+        },
+        "tags": ["Evento Resource"]
+      }
+    },
+    "/inscricoes/inscricoesUsuario": {
+      "put": {
+        "summary": "Atualiza a inscrição de um usuário",
+        "description": "Permite alterar o evento de uma inscrição existente",
+        "requestBody": {
+          "description": "Payload contendo userId, eventoAntigoId e eventoNovoId",
+          "content": {
+            "application/json": {
+              "example": {
+                "userId": 1,
+                "eventoAntigoId": 2,
+                "eventoNovoId": 3
+              },
+              "schema": { "type": "object" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "Inscrição atualizada com sucesso" },
+          "404": { "description": "Inscrição ou novo evento não encontrados" },
+          "400": { "description": "Parâmetros inválidos" }
+        },
+        "tags": ["Inscricao Resource"]
+      }
+    },
+    "/inscricoes/inscricoesUsuario/estaInscrito/{userId}/{eventoId}": {
+      "get": {
+        "summary": "Verifica se um usuário está inscrito em um evento",
+        "description": "Retorna true se o usuário estiver inscrito no evento, false caso contrário",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Verificação realizada com sucesso" },
+          "400": { "description": "Parâmetros inválidos" }
+        },
+        "tags": ["Inscricao Resource"]
+      }
+    },
+    "/inscricoes/inscricoesUsuario/{userId}": {
+      "get": {
+        "summary": "Retorna todas as inscrições de um usuário",
+        "description": "Retorna todas as inscrições de um usuário com base no ID do usuário",
+        "parameters": [
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Inscrições retornadas com sucesso" },
+          "404": { "description": "Usuário não cadastrado" }
+        },
+        "tags": ["Inscricao Resource"]
+      }
+    },
+    "/inscricoes/inscricoesUsuario/{userId}/{eventoId}": {
+      "delete": {
+        "summary": "Remove a inscrição de um usuário em um evento",
+        "description": "Deleta a inscrição com base no ID do usuário e do evento",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Inscrição removida com sucesso" },
+          "404": { "description": "Inscrição não encontrada" },
+          "400": { "description": "Parâmetros inválidos" }
+        },
+        "tags": ["Inscricao Resource"]
+      }
+    },
+    "/inscricoes/realizaInscricao/{userId}/{eventoId}": {
+      "post": {
+        "summary": "Inscreve um usuário em um evento",
+        "description": "Inscreve um usuário em um evento com base no ID do usuário e do evento",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" }
+        },
+        "tags": ["Inscricao Resource"]
+      }
+    },
+    "/usuarios": {
+      "get": {
+        "summary": "Listar todos os usuários",
+        "description": "Essa rota é responsável por listar todos os usuários do sistema.",
+        "responses": {
+          "200": { "description": "OK" }
+        },
+        "tags": ["Usuario Resource"]
+      },
+      "post": {
+        "summary": "Cadastrar usuário",
+        "description": "Essa rota é responsável por cadastrar um usuário no sistema.Se o cadastro for realizado com sucesso, retorna 201.Se o cadastro não for realizado, retorna 400.",
+        "requestBody": {
+          "description": "Dados do usuário a serem cadastrados",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Usuario" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" }
+        },
+        "tags": ["Usuario Resource"]
+      }
+    },
+    "/usuarios/atualizarSenha/{id}": {
+      "put": {
+        "summary": "Atualizar senha do usuário",
+        "description": "Essa rota é responsável por atualizar a senha de um usuário no sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AtualizarSenhaUsuario" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" }
+        },
+        "tags": ["Usuario Resource"]
+      }
+    },
+    "/usuarios/atualizarUsuario/{id}": {
+      "put": {
+        "summary": "Atualizar usuário",
+        "description": "Essa rota é responsável por atualizar um usuário no sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "description": "ID do usuário a ser atualizado",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AtualizarUsuarioDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" }
+        },
+        "tags": ["Usuario Resource"]
+      }
+    },
+    "/usuarios/deleteUsuario/{id}": {
+      "delete": {
+        "summary": "Deletar usuário",
+        "description": "Essa rota é responsável por deletar um usuário do sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" }
+        },
+        "tags": ["Usuario Resource"]
+      }
+    },
+    "/usuarios/findUsuario/{id}": {
+      "get": {
+        "summary": "Buscar usuário por ID",
+        "description": "Essa rota é responsável por buscar um usuário pelo ID.Se o ID não for encontrado, retorna 404.OBS: O ID é gerado automaticamente pelo banco de dados, é unico e é numérico.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" }
+        },
+        "tags": ["Usuario Resource"]
+      }
+    },
+    "/usuarios/login": {
+      "post": {
+        "summary": "Realiza o login do usuário",
+        "description": "Verifica se o usuário está cadastrado e retorna os dados do usuário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "type": "string" }
+              }
+            }
+          },
+          "404": { "description": "Usuário não encontrado" },
+          "401": { "description": "Senha incorreta" },
+          "400": { "description": "Parâmetros obrigatórios: email e senha" }
+        },
+        "tags": ["Usuario Resource"]
+      }
+    }
+  }
+}
