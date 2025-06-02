@@ -1,4 +1,4 @@
-package br.com.apiEventos.resource;
+package br.com.apiEventos.resource.V1;
 
 import br.com.apiEventos.DTO.AtualizarSenhaUsuario;
 import br.com.apiEventos.DTO.AtualizarUsuarioDTO;
@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.ExampleObject;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;

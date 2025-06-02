@@ -1,8 +1,39 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
-    "title": "Minha API",
-    "version": "2.0"
+    "title": "Mais informações sobre a API",
+    "version": "2.0.0",
+    "description": "API de Eventos feita com Quarkus \n - Autor: [Lucas S. Campos](https://www.linkedin.com/in/lucassantosc/) \n - Última data de atualização: 01/06/2025 \n - Versão: 2.0.0 \n - Repositório: [API Eventos TSI](https://github.com/GiltMonster/API-Eventos-java) \n - ‼️ Importante ‼️: Esta API possui key de autenticação, consulte o README do repositório para mais detalhes. \n - ‼️ Importante ‼️: Esta API possui CORS habilitado, consulte o README do repositório para mais detalhes.",
+    "termsOfService": "https://exemplo.com/termos",
+    "contact": {
+      "name": "Dev API - Support",
+      "email": "lucas.scampos4@senacsp.edu.br"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
   },
-  "paths": {}
+  "tags": [
+    {
+      "name": "Evento Resource",
+      "description": "Gerencia eventos"
+    },
+    {
+      "name": "Inscricao Resource",
+      "description": "Gerencia inscrições de usuários em eventos"
+    },
+    {
+      "name": "Usuario Resource",
+      "description": "Gerencia usuários do sistema"
+    },
+    {
+      "name": "Auth Resource",
+      "description": "Gerencia autenticação e autorização"
+    },
+    {
+      "name": "EventoFavorito Resource",
+      "description": "Gerencia eventos favoritos dos usuários"
+    }
+  ]
 }

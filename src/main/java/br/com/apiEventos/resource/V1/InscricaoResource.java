@@ -1,4 +1,4 @@
-package br.com.apiEventos.resource;
+package br.com.apiEventos.resource.V1;
 
 import br.com.apiEventos.DTO.*;
 import br.com.apiEventos.entitys.Evento;

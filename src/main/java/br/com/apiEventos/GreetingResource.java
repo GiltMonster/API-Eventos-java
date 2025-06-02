@@ -1,41 +1,33 @@
 package br.com.apiEventos;
 
-import br.com.apiEventos.resource.EventoResource;
-import br.com.apiEventos.resource.InscricaoResource;
-import br.com.apiEventos.resource.UsuarioResource;
+import br.com.apiEventos.resource.V1.EventoResource;
+import br.com.apiEventos.resource.V1.InscricaoResource;
+import br.com.apiEventos.resource.V1.UsuarioResource;
+import br.com.apiEventos.resource.V1.V1Resource;
+import br.com.apiEventos.resource.V2.V2Resource;
 import jakarta.ws.rs.Path;
 import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 
 @Path("/")
 public class GreetingResource {
 
-    @Path("usuarios")
+    @Deprecated
+    @Path("v1")
     @Operation(
-            summary = "Rotas referentes a usuários",
-            description = "Essa rota é responsável por gerenciar os usuários do sistema."
+            summary = "Versão 1 da API",
+            description = "Essa rota é a versão 1 da API, onde estão localizadas as rotas principais do sistema."
     )
-    public Class<UsuarioResource> users() {
-        return UsuarioResource.class;
+    public Class<V1Resource> v1() {
+        return V1Resource.class;
     }
 
-    @Path("eventos")
+    @Path("v2")
     @Operation(
-        summary = "Rotas referentes a eventos",
-        description = "Essa rota é responsável por gerenciar os eventos do sistema."
+            summary = "Versão 2 da API",
+            description = "Essa rota é a versão 2 da API, onde estão localizadas as rotas principais do sistema."
     )
-    public Class<EventoResource> eventos() {
-        return EventoResource.class;
-    }
-
-    @Path("inscricoes")
-    @Operation(
-        summary = "Rotas referentes a inscrições",
-        description = "Essa rota é responsável por gerenciar as inscrições dos usuários nos eventos."
-    )
-    public Class<InscricaoResource> inscricoes() {
-        return InscricaoResource.class;
+    public Class<V2Resource> v2() {
+        return V2Resource.class;
     }
 
 

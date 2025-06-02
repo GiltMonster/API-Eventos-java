@@ -82,7 +82,7 @@
     }
   },
   "paths": {
-    "/eventos": {
+    "/v1/eventos": {
       "get": {
         "summary": "Listar todos os eventos",
         "description": "Essa rota é responsável por listar todos os eventos do sistema.",
@@ -193,7 +193,7 @@
         "tags": ["Evento Resource"]
       }
     },
-    "/eventos/deletarEvento/{id}": {
+    "/v1/eventos/deletarEvento/{id}": {
       "delete": {
         "summary": "Deletar evento",
         "description": "Essa rota é responsável por deletar um evento do sistema.Se o evento for deletado com sucesso, retorna 200.Se o evento não for encontrado, retorna 404.",
@@ -214,7 +214,7 @@
         "tags": ["Evento Resource"]
       }
     },
-    "/eventos/findEvento/{id}": {
+    "/v1/eventos/findEvento/{id}": {
       "get": {
         "summary": "Buscar evento por ID",
         "description": "Essa rota é responsável por buscar um evento pelo ID.Se o ID não for encontrado, retorna 404.OBS: O ID é gerado automaticamente pelo banco de dados, é unico e é numérico.",
@@ -255,7 +255,7 @@
         "tags": ["Evento Resource"]
       }
     },
-    "/inscricoes/inscricoesUsuario": {
+    "/v1/inscricoes/inscricoesUsuario": {
       "put": {
         "summary": "Atualiza a inscrição de um usuário",
         "description": "Permite alterar o evento de uma inscrição existente",
@@ -281,7 +281,7 @@
         "tags": ["Inscricao Resource"]
       }
     },
-    "/inscricoes/inscricoesUsuario/estaInscrito/{userId}/{eventoId}": {
+    "/v1/inscricoes/inscricoesUsuario/estaInscrito/{userId}/{eventoId}": {
       "get": {
         "summary": "Verifica se um usuário está inscrito em um evento",
         "description": "Retorna true se o usuário estiver inscrito no evento, false caso contrário",
@@ -310,7 +310,7 @@
         "tags": ["Inscricao Resource"]
       }
     },
-    "/inscricoes/inscricoesUsuario/{userId}": {
+    "/v1/inscricoes/inscricoesUsuario/{userId}": {
       "get": {
         "summary": "Retorna todas as inscrições de um usuário",
         "description": "Retorna todas as inscrições de um usuário com base no ID do usuário",
@@ -331,7 +331,7 @@
         "tags": ["Inscricao Resource"]
       }
     },
-    "/inscricoes/inscricoesUsuario/{userId}/{eventoId}": {
+    "/v1/inscricoes/inscricoesUsuario/{userId}/{eventoId}": {
       "delete": {
         "summary": "Remove a inscrição de um usuário em um evento",
         "description": "Deleta a inscrição com base no ID do usuário e do evento",
@@ -361,7 +361,7 @@
         "tags": ["Inscricao Resource"]
       }
     },
-    "/inscricoes/realizaInscricao/{userId}/{eventoId}": {
+    "/v1/inscricoes/realizaInscricao/{userId}/{eventoId}": {
       "post": {
         "summary": "Inscreve um usuário em um evento",
         "description": "Inscreve um usuário em um evento com base no ID do usuário e do evento",
@@ -389,7 +389,7 @@
         "tags": ["Inscricao Resource"]
       }
     },
-    "/usuarios": {
+    "/v1/usuarios": {
       "get": {
         "summary": "Listar todos os usuários",
         "description": "Essa rota é responsável por listar todos os usuários do sistema.",
@@ -417,7 +417,7 @@
         "tags": ["Usuario Resource"]
       }
     },
-    "/usuarios/atualizarSenha/{id}": {
+    "/v1/usuarios/atualizarSenha/{id}": {
       "put": {
         "summary": "Atualizar senha do usuário",
         "description": "Essa rota é responsável por atualizar a senha de um usuário no sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
@@ -444,7 +444,7 @@
         "tags": ["Usuario Resource"]
       }
     },
-    "/usuarios/atualizarUsuario/{id}": {
+    "/v1/usuarios/atualizarUsuario/{id}": {
       "put": {
         "summary": "Atualizar usuário",
         "description": "Essa rota é responsável por atualizar um usuário no sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
@@ -473,7 +473,7 @@
         "tags": ["Usuario Resource"]
       }
     },
-    "/usuarios/deleteUsuario/{id}": {
+    "/v1/usuarios/deleteUsuario/{id}": {
       "delete": {
         "summary": "Deletar usuário",
         "description": "Essa rota é responsável por deletar um usuário do sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
@@ -491,7 +491,7 @@
         "tags": ["Usuario Resource"]
       }
     },
-    "/usuarios/findUsuario/{id}": {
+    "/v1/usuarios/findUsuario/{id}": {
       "get": {
         "summary": "Buscar usuário por ID",
         "description": "Essa rota é responsável por buscar um usuário pelo ID.Se o ID não for encontrado, retorna 404.OBS: O ID é gerado automaticamente pelo banco de dados, é unico e é numérico.",
@@ -509,7 +509,7 @@
         "tags": ["Usuario Resource"]
       }
     },
-    "/usuarios/login": {
+    "/v1/usuarios/login": {
       "post": {
         "summary": "Realiza o login do usuário",
         "description": "Verifica se o usuário está cadastrado e retorna os dados do usuário",
