@@ -1,8 +1,5 @@
 package br.com.apiEventos;
 
-import br.com.apiEventos.resource.V1.EventoResource;
-import br.com.apiEventos.resource.V1.InscricaoResource;
-import br.com.apiEventos.resource.V1.UsuarioResource;
 import br.com.apiEventos.resource.V1.V1Resource;
 import br.com.apiEventos.resource.V2.V2Resource;
 import jakarta.ws.rs.Path;

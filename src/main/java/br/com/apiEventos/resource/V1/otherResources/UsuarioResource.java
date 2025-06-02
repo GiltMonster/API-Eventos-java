@@ -1,4 +1,4 @@
-package br.com.apiEventos.resource.V1;
+package br.com.apiEventos.resource.V1.otherResources;
 
 import br.com.apiEventos.DTO.AtualizarSenhaUsuario;
 import br.com.apiEventos.DTO.AtualizarUsuarioDTO;
@@ -74,37 +74,33 @@ public class UsuarioResource implements Messages {
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON,
                             schema = @Schema(
-                                    implementation = Usuario.class
+                                    implementation = Usuario.class,
+                                    requiredProperties = {"nome", "sobreNome", "email", "senha"},
+                                    example = """
+                                            {
+                                                "nome": "João",
+                                                "sobreNome": "Silva",
+                                                "email": "joao@gmail.com",
+                                                "senha": "senha123"
+                                            }
+                                            """
                             )
                     )
             )
-
             Usuario usuario
     ) {
-        usuario.
-
-                persist();
+        usuario.persist();
 
         if (usuario.user_id != null) {
             return Response.
-
                     status(Response.Status.CREATED)
-                            .
-
-                    entity(usuario)
-                            .
-
-                    build();
+                    .entity(usuario)
+                    .build();
         } else {
             return Response.
-
                     status(Response.Status.BAD_REQUEST)
-                            .
-
-                    entity(mensagemToJSON(Messages.MSG_CADASTRO_NAO_ENCONTRADO))
-                            .
-
-                    build();
+                    .entity(mensagemToJSON(Messages.MSG_CADASTRO_NAO_ENCONTRADO))
+                    .build();
         }
     }
 
@@ -199,9 +195,9 @@ public class UsuarioResource implements Messages {
     @Operation(
             summary = "Atualizar senha do usuário",
             description = """
-                Essa rota é responsável por atualizar a senha de um usuário no sistema.\
-                Se o usuário for encontrado, retorna 200.\
-                Se o usuário não for encontrado, retorna 404."""
+                    Essa rota é responsável por atualizar a senha de um usuário no sistema.\
+                    Se o usuário for encontrado, retorna 200.\
+                    Se o usuário não for encontrado, retorna 404."""
     )
     @Transactional
     public Response atualizarSenha(@PathParam("id") int id, AtualizarSenhaUsuario senha) {

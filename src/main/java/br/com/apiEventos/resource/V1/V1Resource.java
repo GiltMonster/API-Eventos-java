@@ -1,5 +1,8 @@
 package br.com.apiEventos.resource.V1;
 
+import br.com.apiEventos.resource.V1.otherResources.EventoResource;
+import br.com.apiEventos.resource.V1.otherResources.InscricaoResource;
+import br.com.apiEventos.resource.V1.otherResources.UsuarioResource;
 import jakarta.ws.rs.Path;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 
