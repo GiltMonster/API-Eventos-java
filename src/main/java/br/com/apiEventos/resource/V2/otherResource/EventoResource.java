@@ -1,6 +1,7 @@
 package br.com.apiEventos.resource.V2.otherResource;
 
 import br.com.apiEventos.entitys.Evento;
+import br.com.apiEventos.utils.IdempotencyUtil;
 import br.com.apiEventos.utils.Messages;
 import io.smallrye.faulttolerance.api.RateLimit;
 import jakarta.annotation.security.RolesAllowed;
@@ -216,21 +217,35 @@ public class EventoResource implements Messages {
     )
     @Transactional
     public Response cadastrarEvento(
+            @HeaderParam("Idempotency-Key") String idempotencyKey,
             @Parameter(
                     description = "Evento a ser cadastrado",
                     required = true
             )
             Evento evento
     ) {
+        if (idempotencyKey == null || idempotencyKey.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Cabeçalho Idempotency-Key obrigatório").build();
+        }
+        Response cached = IdempotencyUtil.getResponseIfExists(idempotencyKey);
+        if (cached != null) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(mensagemToJSON(Messages.MSG_CADASTRO_JA_REALIZADO))
+                    .build();
+        }
         if (evento == null) {
-            return Response.status(Response.Status.BAD_REQUEST)
+            Response response = Response.status(Response.Status.BAD_REQUEST)
                     .entity(mensagemToJSON(Messages.MSG_CADASTRO_VAZIO))
                     .build();
+            IdempotencyUtil.storeResponse(idempotencyKey, response);
+            return response;
         } else {
             evento.persist();
-            return Response.status(Response.Status.CREATED)
+            Response response = Response.status(Response.Status.CREATED)
                     .entity(mensagemToJSON(Messages.MSG_CADASTRO))
                     .build();
+            IdempotencyUtil.storeResponse(idempotencyKey, response);
+            return response;
         }
     }
 

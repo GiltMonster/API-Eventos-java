@@ -3,6 +3,7 @@ package br.com.apiEventos.utils;
 public interface Messages {
     String MSG_CADASTRO = "Cadastro realizado com sucesso!";
     String MSG_CADASTRO_ERRO = "Erro ao cadastrar!";
+    String MSG_CADASTRO_JA_REALIZADO = "Cadastro já realizado!";
     String MSG_CADASTRO_VAZIO = "Cadastro vazio!";
     String MSG_ATUALIZADO = "Cadastro atualizado com sucesso!";
     String MSG_ATUALIZADO_ERRO = "Erro ao atualizar cadastro!";

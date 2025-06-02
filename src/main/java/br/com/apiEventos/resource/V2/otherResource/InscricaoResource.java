@@ -5,6 +5,7 @@ import br.com.apiEventos.entitys.Evento;
 import br.com.apiEventos.entitys.Inscricao;
 import br.com.apiEventos.entitys.Usuario;
 import br.com.apiEventos.utils.Messages;
+import br.com.apiEventos.utils.IdempotencyUtil;
 import io.smallrye.faulttolerance.api.RateLimit;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -132,6 +133,7 @@ public class InscricaoResource implements Messages {
     )
     @Transactional
     public Response postInscricao(
+            @HeaderParam("Idempotency-Key") String idempotencyKey,
             @Parameter(
                     description = "ID do usuário",
                     required = true,
@@ -145,19 +147,31 @@ public class InscricaoResource implements Messages {
             )
             @PathParam("eventoId") Long eventoId
     ) {
+        if (idempotencyKey == null || idempotencyKey.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Cabeçalho Idempotency-Key obrigatório").build();
+        }
+        Response cached = IdempotencyUtil.getResponseIfExists(idempotencyKey);
+        if (cached != null) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(mensagemToJSON(Messages.MSG_CADASTRO_JA_REALIZADO))
+                    .build();
+        }
         Usuario usuario = Usuario.findById(userId);
         Evento evento = Evento.findById(eventoId);
 
+        Response response;
         if (usuario == null || evento == null) {
-            return Response.status(Response.Status.NOT_FOUND)
+            response = Response.status(Response.Status.NOT_FOUND)
                     .entity(mensagemToJSON(Messages.MSG_LISTA_ITENS_VAZIA))
                     .build();
         } else {
             var inscricao = new Inscricao(usuario, evento, new java.util.Date());
             inscricao.persist();
-            return Response.ok(inscricao)
+            response = Response.ok(inscricao)
                     .build();
         }
+        IdempotencyUtil.storeResponse(idempotencyKey, response);
+        return response;
     }
 
     @DELETE

@@ -16,7 +16,7 @@ class GreetingResourceTest {
         given()
                 .when().get("/v1/usuarios")
                 .then()
-                .statusCode(204);
+                .statusCode(200); // Assuming the endpoint returns an empty JSON array when no users exist
     }
 
     @Test

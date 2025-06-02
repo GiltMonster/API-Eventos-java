@@ -36,6 +36,6 @@ public class ApiKeyAuthFilter implements ContainerRequestFilter {
 
     private boolean isPublicRoute(String path) {
         // Defina aqui suas rotas públicas que não requerem autenticação
-        return path.contains("/v1/") || path.contains("/docs/") || path.contains("/apikeys/");
+        return path.contains("/v1/") || path.contains("/docs/") || path.contains("/apikeys/generate");
     }
 }

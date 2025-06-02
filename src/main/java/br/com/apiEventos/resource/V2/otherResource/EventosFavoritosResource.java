@@ -4,6 +4,7 @@ import br.com.apiEventos.entitys.Evento;
 import br.com.apiEventos.entitys.EventosFavoritos;
 import br.com.apiEventos.entitys.Usuario;
 import br.com.apiEventos.utils.Messages;
+import br.com.apiEventos.utils.IdempotencyUtil;
 import io.smallrye.faulttolerance.api.RateLimit;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -119,6 +120,7 @@ public class EventosFavoritosResource implements Messages {
     @Path("addEventoFavorito/{userId}/{eventoId}")
     @Transactional
     public Response addEventoFavorito(
+            @HeaderParam("Idempotency-Key") String idempotencyKey,
             @Parameter(
                     description = "ID do usuário",
                     required = true,
@@ -132,21 +134,28 @@ public class EventosFavoritosResource implements Messages {
             )
             @PathParam("eventoId") Long eventoId
     ) {
-        if (userId == null || eventoId == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Parâmetros obrigatórios: userId e eventoId").build();
+        if (idempotencyKey == null || idempotencyKey.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Cabeçalho Idempotency-Key obrigatório").build();
         }
-
+        Response cached = IdempotencyUtil.getResponseIfExists(idempotencyKey);
+        if (cached != null) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(mensagemToJSON(Messages.MSG_CADASTRO_JA_REALIZADO))
+                    .build();
+        }
         EventosFavoritos favorito = new EventosFavoritos();
         favorito.usuarioFavorito = Usuario.findById(userId);
         favorito.eventoFavorito = Evento.findById(eventoId);
 
+        Response response;
         if (favorito.usuarioFavorito == null || favorito.eventoFavorito == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity(Messages.MSG_SEM_EVENTOS).build();
-
+            response = Response.status(Response.Status.BAD_REQUEST).entity(Messages.MSG_SEM_EVENTOS).build();
         } else {
             favorito.persist();
-            return Response.status(Response.Status.CREATED).entity(Messages.MSG_EVENTO_ADICIONADO_FAVORITOS).build();
+            response = Response.status(Response.Status.CREATED).entity(Messages.MSG_EVENTO_ADICIONADO_FAVORITOS).build();
         }
+        IdempotencyUtil.storeResponse(idempotencyKey, response);
+        return response;
     }
 
     @DELETE
@@ -199,3 +208,4 @@ public class EventosFavoritosResource implements Messages {
                 .build();
     }
 }
+

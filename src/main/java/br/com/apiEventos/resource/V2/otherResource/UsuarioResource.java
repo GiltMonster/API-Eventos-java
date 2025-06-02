@@ -2,6 +2,7 @@ package br.com.apiEventos.resource.V2.otherResource;
 
 import br.com.apiEventos.DTO.AtualizarUsuarioDTO;
 import br.com.apiEventos.entitys.Usuario;
+import br.com.apiEventos.utils.IdempotencyUtil;
 import br.com.apiEventos.utils.Messages;
 import io.smallrye.faulttolerance.api.RateLimit;
 import jakarta.annotation.security.RolesAllowed;
@@ -85,6 +86,7 @@ public class UsuarioResource implements Messages {
     )
     @Transactional
     public Response cadastrar(
+            @HeaderParam("Idempotency-Key") String idempotencyKey,
             @RequestBody(
                     description = "Dados do usuário a serem cadastrados",
                     required = true,
@@ -106,19 +108,24 @@ public class UsuarioResource implements Messages {
             )
             Usuario usuario
     ) {
-        usuario.persist();
-
-        if (usuario.user_id != null) {
-            return Response.
-                    status(Response.Status.CREATED)
-                    .entity(usuario)
-                    .build();
-        } else {
-            return Response.
-                    status(Response.Status.BAD_REQUEST)
-                    .entity(mensagemToJSON(Messages.MSG_CADASTRO_NAO_ENCONTRADO))
+        if (idempotencyKey == null || idempotencyKey.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Cabeçalho Idempotency-Key obrigatório").build();
+        }
+        Response cached = IdempotencyUtil.getResponseIfExists(idempotencyKey);
+        if (cached != null) {
+            return Response.status(Response.Status.CONFLICT)
+                    .entity(mensagemToJSON(Messages.MSG_CADASTRO_JA_REALIZADO))
                     .build();
         }
+        usuario.persist();
+        Response response;
+        if (usuario.user_id != null) {
+            response = Response.status(Response.Status.CREATED).entity(usuario).build();
+        } else {
+            response = Response.status(Response.Status.BAD_REQUEST).entity(mensagemToJSON(Messages.MSG_CADASTRO_NAO_ENCONTRADO)).build();
+        }
+        IdempotencyUtil.storeResponse(idempotencyKey, response);
+        return response;
     }
 
     @PUT
