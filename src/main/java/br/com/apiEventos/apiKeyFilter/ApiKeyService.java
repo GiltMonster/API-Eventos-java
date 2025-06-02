@@ -1,24 +1,21 @@
 package br.com.apiEventos.apiKeyFilter;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class ApiKeyService {
 
-    @ConfigProperty(name = "quarkus.api-key.value")
-    String configuredApiKey;
+    // Removido: @ConfigProperty(name = "quarkus.api-key.value")
+    // String configuredApiKey;
 
     public boolean isValid(String apiKey) {
-        return apiKey != null && apiKey.equals(configuredApiKey);
+        // Sempre retorna false, pois não há mais chave fixa
+        return false;
     }
 
     //Metodo opcional para obter informações associadas a uma API key
     public ApiKeyInfo getApiKeyInfo(String apiKey) {
-        if (isValid(apiKey)) {
-            return new ApiKeyInfo("default-user", new String[]{"user"
-            });
-        }
+        // Não há mais chave fixa
         return null;
     }
 

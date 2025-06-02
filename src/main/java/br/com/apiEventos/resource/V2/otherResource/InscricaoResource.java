@@ -6,6 +6,7 @@ import br.com.apiEventos.entitys.Inscricao;
 import br.com.apiEventos.entitys.Usuario;
 import br.com.apiEventos.utils.Messages;
 import io.smallrye.faulttolerance.api.RateLimit;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -19,7 +20,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed({"USER", "ADMIN"})
 public class InscricaoResource implements Messages {
 
     @GET

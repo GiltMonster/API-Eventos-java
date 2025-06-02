@@ -50,4 +50,13 @@ public class V2Resource {
     public Class<EventosFavoritosResource> eventosFavoritos() {
         return EventosFavoritosResource.class;
     }
+
+    @Path("apikeys")
+    @Operation(
+        summary = "Gerenciar chaves de API",
+        description = "Endpoint para geração e gerenciamento de chaves de API dos usuários."
+    )
+    public Class<ApiKeyResource> apiKeys() {
+        return ApiKeyResource.class;
+    }
 }

@@ -5,6 +5,7 @@ import br.com.apiEventos.entitys.EventosFavoritos;
 import br.com.apiEventos.entitys.Usuario;
 import br.com.apiEventos.utils.Messages;
 import io.smallrye.faulttolerance.api.RateLimit;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -20,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 @ApplicationScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed({"USER", "ADMIN"})
 public class EventosFavoritosResource implements Messages {
 
     @GET

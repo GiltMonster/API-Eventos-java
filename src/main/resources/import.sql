@@ -6,7 +6,7 @@
 -- alter sequence myentity_seq restart with 4;
 
 -- Usuários:
---insert into usuario (nome, sobreNome, email, senha) values('Lucas', 'Santos', 'lucas@gmail.com', '123456');
+insert into usuario (nome, sobreNome, email, senha) values('Lucas', 'Santos', 'lucas@gmail.com', '$2a$10$B/gHc3/pYlTZ8fMTlhnY9./LCG/VAw4FoogTZe0bjYhnoyZiAkaXm');
 
 --Eventos:
 insert into evento (nome, descricao, dataInicio, dataFim, localizacao) values('Grande Show', 'Show de uma banda famosa.', '2023-11-15', '2023-11-15', 'Estádio Municipal');
