@@ -1,23 +1,21 @@
 package br.com.apiEventos.resource.V2.otherResource;
 
-import br.com.apiEventos.DTO.AtualizarSenhaUsuario;
 import br.com.apiEventos.DTO.AtualizarUsuarioDTO;
-import br.com.apiEventos.DTO.LoginRequest;
 import br.com.apiEventos.entitys.Usuario;
 import br.com.apiEventos.utils.Messages;
+import io.smallrye.faulttolerance.api.RateLimit;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.mindrot.jbcrypt.BCrypt;
+import java.time.temporal.ChronoUnit;
 
 @ApplicationScoped
 @Produces(MediaType.APPLICATION_JSON)
@@ -25,6 +23,15 @@ import org.mindrot.jbcrypt.BCrypt;
 public class UsuarioResource implements Messages {
 
     @GET
+    @RateLimit(
+            value = 5,
+            window = 10,
+            minSpacing = 5,
+            windowUnit = ChronoUnit.MINUTES
+    )
+    @Fallback(
+       fallbackMethod = "getAllUsuariosFallback"
+    )
     @Operation(
             summary = "Listar todos os usuários",
             description = "Essa rota é responsável por listar todos os usuários do sistema."
@@ -40,6 +47,13 @@ public class UsuarioResource implements Messages {
 
 
     @GET
+    @RateLimit(
+            value = 5,
+            window = 10,
+            minSpacing = 5,
+            windowUnit = ChronoUnit.MINUTES
+    )
+    @Fallback(fallbackMethod = "getEntityByIdFallback")
     @Operation(
             summary = "Buscar usuário por ID",
             description = """
@@ -57,13 +71,6 @@ public class UsuarioResource implements Messages {
         } else {
             return Response.ok(usuario).build();
         }
-    }
-
-    @Override
-    public String mensagemToJSON(String msg) {
-        return "{" +
-                "\"message\": \"" + msg + "\"" +
-                "}";
     }
 
     @POST
@@ -146,9 +153,6 @@ public class UsuarioResource implements Messages {
         }
     }
 
-
-
-
     @DELETE
     @Operation(
             summary = "Deletar usuário",
@@ -170,5 +174,24 @@ public class UsuarioResource implements Messages {
             return Response.ok(mensagemToJSON(Messages.MSG_CADASTRO_DELETADO))
                     .build();
         }
+    }
+
+    @Override
+    public String mensagemToJSON(String msg) {
+        return "{" +
+                "\"message\": \"" + msg + "\"" +
+                "}";
+    }
+
+    public Response getAllUsuariosFallback() {
+        return Response.status(Response.Status.TOO_MANY_REQUESTS)
+                .entity(mensagemToJSON(Messages.MSG_SERVICO_INDISPONIVEL_RATE_LIMITADA))
+                .build();
+    }
+
+    public Response getEntityByIdFallback(int id) {
+        return Response.status(Response.Status.TOO_MANY_REQUESTS)
+                .entity(mensagemToJSON(Messages.MSG_SERVICO_INDISPONIVEL_RATE_LIMITADA))
+                .build();
     }
 }
