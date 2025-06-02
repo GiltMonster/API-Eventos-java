@@ -14,7 +14,7 @@ class GreetingResourceTest {
     @Test
     void testGivenUsuarioEndpoint() {
         given()
-                .when().get("/usuarios")
+                .when().get("/v1/usuarios")
                 .then()
                 .statusCode(204);
     }
@@ -22,7 +22,7 @@ class GreetingResourceTest {
     @Test
     void testGivenEventosEndpoint() {
         given()
-                .when().get("/eventos")
+                .when().get("/v1/eventos")
                 .then()
                 .statusCode(200);
     }
