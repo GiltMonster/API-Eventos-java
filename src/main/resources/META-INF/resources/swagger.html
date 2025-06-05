@@ -30,9 +30,20 @@
   </div>
 
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
-  <script>
+  <script defer>
+
+    // pegar o quaryparams 
+    const urlParams = new URLSearchParams(window.location.search);
+    const version = urlParams.get('version') || 'v1';
+    
+    console.log(`Versão selecionada: ${version}`);
+    
+    // Atualizar o seletor de versão
+    document.getElementById('versionSelector').value = version;
+
+
     const ui = SwaggerUIBundle({
-      url: `/docs/v1`,
+      url: `/docs/${version}`,
       dom_id: '#swagger-ui',
     });
 

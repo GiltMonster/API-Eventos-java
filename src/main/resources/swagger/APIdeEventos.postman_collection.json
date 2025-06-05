@@ -1,0 +1,956 @@
+{
+	"info": {
+		"_postman_id": "b847d552-7038-42a1-88bf-bc1eb288601a",
+		"name": "JAVA COM QUARKUS - API de Eventos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32743440",
+		"_collection_link": "https://www.postman.com/research-astronomer-68662758/workspace/api-s-publics/collection/32743440-b847d552-7038-42a1-88bf-bc1eb288601a?action=share&source=collection_link&creator=32743440"
+	},
+	"item": [
+		{
+			"name": "V1",
+			"item": [
+				{
+					"name": "Usuario",
+					"item": [
+						{
+							"name": "Listar usuarios",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Busca usuario por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/usuarios/findUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										"findUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cadastro de usuarios",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"João\",\n  \"sobreNome\": \"Silva\",\n  \"email\": \"joao@gmail.com\",\n  \"senha\": \"senha123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar usuarios",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"Murilo\",\n  \"sobreNome\": \"Silva\",\n  \"email\": \"murilo@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/usuarios/atualizarUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										"atualizarUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar usuario",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"Murilo\",\n  \"sobreNome\": \"Silva\",\n  \"email\": \"murilo@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/usuarios/deleteUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"usuarios",
+										"deleteUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"lucas@gmail.com\",\n  \"senha\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar senha",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"senhaAtual\": \"senha123\",\n  \"novaSenha\": \"senha1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v1/auth/atualizarSenha/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v1",
+										"auth",
+										"atualizarSenha",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "V2",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"lucas@gmail.com\",\n  \"senha\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/auth/login",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar senha",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"senhaAtual\": \"123456\",\n  \"novaSenha\": \"senha1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/auth/atualizarSenha/{user_id}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"auth",
+										"atualizarSenha",
+										"{user_id}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Usuario",
+					"item": [
+						{
+							"name": "Listar usuarios",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Busca usuario por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/usuarios/findUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"usuarios",
+										"findUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cadastro de usuarios",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"João\",\n  \"sobreNome\": \"Silva\",\n  \"email\": \"joao@gmail.com\",\n  \"senha\": \"senha123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/usuarios",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Editar usuarios",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"Murilo\",\n  \"sobreNome\": \"Silva\",\n  \"email\": \"murilo@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/usuarios/atualizarUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"usuarios",
+										"atualizarUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletar usuario",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"nome\": \"Murilo\",\n  \"sobreNome\": \"Silva\",\n  \"email\": \"murilo@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/usuarios/deleteUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"usuarios",
+										"deleteUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Eventos",
+					"item": [
+						{
+							"name": "All eventos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventos",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Evento por id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventos/findEvento/14",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventos",
+										"findEvento",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cadastro evento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"string\",\n    \"descricao\": \"string\",\n    \"dataInicio\": \"2022-03-10\",\n    \"dataFim\": \"2022-03-10\",\n    \"localizacao\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventos",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualiza eventos",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"evento_id\": 14,\n  \"nome\": \"Campus Partty\",\n  \"descricao\": \"Evento de tecnologia\",\n  \"dataInicio\": \"2022-03-10\",\n  \"dataFim\": \"2022-03-10\",\n  \"localizacao\": \"São Paulo, SP\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventos",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleta Evento",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"evento_id\": 14,\n  \"nome\": \"Campus Partty\",\n  \"descricao\": \"Evento de tecnologia\",\n  \"dataInicio\": \"2022-03-10\",\n  \"dataFim\": \"2022-03-10\",\n  \"localizacao\": \"São Paulo, SP\"\n}"
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventos/deletarEvento/14",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventos",
+										"deletarEvento",
+										"14"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Eventos Favoritos",
+					"item": [
+						{
+							"name": "Verifica se o usuario favoritou o evento",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventosFav/verificarFavorito/1/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventosFav",
+										"verificarFavorito",
+										"1",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "lista todos eventos favoritos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventosFav/getAllEventosFavoritos/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventosFav",
+										"getAllEventosFavoritos",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Adiciona evento favorito",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventosFav/addEventoFavorito/{userId}/{eventoId}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventosFav",
+										"addEventoFavorito",
+										"{userId}",
+										"{eventoId}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove evento favorito",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/eventosFav/deleteEventoFavorito/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"eventosFav",
+										"deleteEventoFavorito",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Inscricão",
+					"item": [
+						{
+							"name": "Inscricoes usuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/inscricoes/inscricoesUsuario/1",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"inscricoes",
+										"inscricoesUsuario",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verifica inscricoes usuario",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/inscricoes/inscricoesUsuario/estaInscrito/{userId}/{eventoId}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"inscricoes",
+										"inscricoesUsuario",
+										"estaInscrito",
+										"{userId}",
+										"{eventoId}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Inscrever no evento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/inscricoes/realizaInscricao/{userId}/{eventoId}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"inscricoes",
+										"realizaInscricao",
+										"{userId}",
+										"{eventoId}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualiza inscrições",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": 1,\n  \"eventoAntigoId\": 1,\n  \"eventoNovoId\": 3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/inscricoes/inscricoesUsuario",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"inscricoes",
+										"inscricoesUsuario"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleta inscricao",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"userId\": 1,\n  \"eventoAntigoId\": 1,\n  \"eventoNovoId\": 3\n}"
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/inscricoes/inscricoesUsuario/{userId}/{eventoId}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"inscricoes",
+										"inscricoesUsuario",
+										"{userId}",
+										"{eventoId}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Api Key",
+					"item": [
+						{
+							"name": "Listar as Keys",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/apikeys/user/{userId}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"apikeys",
+										"user",
+										"{userId}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate KEY",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code == 200){",
+											"    let apiKey = pm.response.json().apiKey;",
+											"    pm.collectionVariables.set(\"X-API-Key\", apiKey) ",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/apikeys/generate/{user_id}?accessLevel={NIVEL_ACESSO}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"apikeys",
+										"generate",
+										"{user_id}"
+									],
+									"query": [
+										{
+											"key": "accessLevel",
+											"value": "{NIVEL_ACESSO}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate KEY Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://{{BASE_URL}}/v2/apikeys/{id}",
+									"protocol": "http",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"v2",
+										"apikeys",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "key",
+						"value": "X-API-KEY",
+						"type": "string"
+					},
+					{
+						"key": "value",
+						"value": "{{X-API-Key}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							"const uuid = require('uuid');",
+							"const myUUID = uuid.v4();",
+							"",
+							"if(pm.request.method == 'POST'){",
+							"    let hasHeader = pm.request.headers.has('Idempotency-Key')",
+							"    let valueKey = myUUID",
+							"",
+							"    if(!hasHeader){",
+							"",
+							"        pm.request.headers.add({",
+							"            key: 'Idempotency-Key',",
+							"            value: valueKey",
+							"        })",
+							"",
+							"    }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "X-API-Key",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "BASE_URL",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}
