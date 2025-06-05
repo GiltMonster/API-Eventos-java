@@ -95,14 +95,14 @@ public class AuthResource implements Messages {
 
         // Verifica se a senha atual está correta
         if (!BCrypt.checkpw(senha.senhaAtual, usuarioToUpdate.getSenha())) {
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.UNAUTHORIZED)
                     .entity(mensagemToJSON("Senha atual incorreta"))
                     .build();
         }
 
         // Verifica se a nova senha é igual à atual
         if (BCrypt.checkpw(senha.novaSenha, usuarioToUpdate.getSenha())) {
-            return Response.status(Response.Status.BAD_REQUEST)
+            return Response.status(Response.Status.NOT_MODIFIED)
                     .entity(mensagemToJSON("Nova senha não pode ser igual à atual"))
                     .build();
         }
