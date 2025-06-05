@@ -16,6 +16,7 @@ public interface Messages {
     String MSG_SEM_EVENTOS = "Não há eventos disponíveis no momento!";
     String MSG_EVENTO_ADICIONADO_FAVORITOS = "Evento adicionado aos favoritos com sucesso!";
     String MSG_SERVICO_INDISPONIVEL_RATE_LIMITADA = "Serviço indisponível no momento. Você atingiu o limite de requisições permitidas. Tente novamente mais tarde.";
+    String MSG_KEY_IDEPENDECIA_USADA = "Cabeçalho Idempotency-Key obrigatório e não pode ser usado mais de uma vez.";
 
     String mensagemToJSON(String msg);
 

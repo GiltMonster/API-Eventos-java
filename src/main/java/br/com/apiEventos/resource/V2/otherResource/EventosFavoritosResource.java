@@ -135,7 +135,7 @@ public class EventosFavoritosResource implements Messages {
             @PathParam("eventoId") Long eventoId
     ) {
         if (idempotencyKey == null || idempotencyKey.isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Cabeçalho Idempotency-Key obrigatório").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(mensagemToJSON(Messages.MSG_KEY_IDEPENDECIA_USADA)).build();
         }
         Response cached = IdempotencyUtil.getResponseIfExists(idempotencyKey);
         if (cached != null) {

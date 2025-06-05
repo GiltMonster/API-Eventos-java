@@ -4,13 +4,12 @@ import br.com.apiEventos.DTO.AtualizarSenhaUsuario;
 import br.com.apiEventos.DTO.LoginRequest;
 import br.com.apiEventos.entitys.Usuario;
 import br.com.apiEventos.utils.Messages;
-import io.smallrye.faulttolerance.api.RateLimit;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -19,11 +18,10 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.time.temporal.ChronoUnit;
-
 @ApplicationScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@RolesAllowed({"ADMIN", "USER"})
 public class AuthResource implements Messages {
 
     @POST

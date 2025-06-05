@@ -2,6 +2,7 @@ package br.com.apiEventos.resource.V2.otherResource;
 
 import br.com.apiEventos.entitys.ApiKey;
 import br.com.apiEventos.entitys.Usuario;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -37,6 +38,7 @@ public class ApiKeyResource {
 
     @GET
     @Path("/user/{userId}")
+    @RolesAllowed({"ADMIN"})
     public Response listApiKeys(@PathParam("userId") Long userId) {
         List<ApiKey> keys = ApiKey.list("usuario.id", userId);
         return Response.ok(keys).build();
@@ -44,6 +46,7 @@ public class ApiKeyResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"ADMIN"})
     @Transactional
     public Response deleteApiKey(@PathParam("id") Long id) {
         ApiKey key = ApiKey.findById(id);
