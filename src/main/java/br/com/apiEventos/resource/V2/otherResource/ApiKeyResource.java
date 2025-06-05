@@ -31,7 +31,7 @@ public class ApiKeyResource {
         ApiKey apiKey = new ApiKey();
         apiKey.apiKey = key;
         apiKey.usuario = usuario;
-        apiKey.accessLevel = accessLevel;
+        apiKey.accessLevel = accessLevel != null ? accessLevel.trim().toUpperCase() : "USER";
         apiKey.persist();
         return Response.ok(apiKey).build();
     }
