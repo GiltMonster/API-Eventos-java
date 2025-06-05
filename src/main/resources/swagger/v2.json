@@ -16,12 +16,8 @@
   },
   "tags": [
     {
-      "name": "Evento Resource",
-      "description": "Gerencia eventos"
-    },
-    {
-      "name": "Inscricao Resource",
-      "description": "Gerencia inscrições de usuários em eventos"
+      "name": "Api Key Resource",
+      "description": "Gerencia chaves de API"
     },
     {
       "name": "Usuario Resource",
@@ -32,8 +28,880 @@
       "description": "Gerencia autenticação e autorização"
     },
     {
+      "name": "Evento Resource",
+      "description": "Gerencia eventos"
+    },
+    {
       "name": "EventoFavorito Resource",
       "description": "Gerencia eventos favoritos dos usuários"
+    },
+    {
+      "name": "Inscricao Resource",
+      "description": "Gerencia inscrições de usuários em eventos"
     }
-  ]
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "description": "Chave de autenticação necessária para acessar os endpoints da API.",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      }
+    },
+    "schemas": {
+      "Usuario": {
+        "type": "object",
+        "description": "Entidade que representa um usuário do sistema",
+        "required": ["nome", "sobreNome", "email", "senha"],
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador único do usuário"
+          },
+          "nome": { "type": "string", "description": "Nome do usuário" },
+          "sobreNome": {
+            "type": "string",
+            "description": "Sobrenome do usuário"
+          },
+          "email": { "type": "string", "description": "E-mail do usuário" },
+          "senha": { "type": "string", "description": "Senha do usuário" }
+        },
+        "example": {
+          "user_id": 1,
+          "nome": "João",
+          "sobreNome": "Silva",
+          "email": "joao@gmail.com",
+          "senha": "senha123"
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string" },
+          "senha": { "type": "string" }
+        }
+      },
+      "AtualizarSenhaUsuario": {
+        "type": "object",
+        "properties": {
+          "senhaAtual": { "type": "string" },
+          "novaSenha": { "type": "string" }
+        }
+      },
+      "AtualizarUsuarioDTO": {
+        "type": "object",
+        "properties": {
+          "nome": { "type": "string" },
+          "sobreNome": { "type": "string" },
+          "email": { "type": "string" }
+        }
+      },
+      "Evento": {
+        "type": "object",
+        "required": [
+          "nome",
+          "descricao",
+          "dataInicio",
+          "dataFim",
+          "localizacao"
+        ],
+        "properties": {
+          "evento_id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identificador único do evento"
+          },
+          "nome": { "type": "string", "description": "Nome do evento" },
+          "descricao": {
+            "type": "string",
+            "description": "Descrição detalhada do evento"
+          },
+          "dataInicio": { "$ref": "#/components/schemas/Date" },
+          "dataFim": { "$ref": "#/components/schemas/Date" },
+          "localizacao": {
+            "type": "string",
+            "description": "Localização do evento"
+          }
+        },
+        "example": {
+          "evento_id": 1,
+          "nome": "Evento 1",
+          "descricao": "Descrição do evento 1",
+          "dataInicio": "2023-10-01",
+          "dataFim": "2023-10-02",
+          "localizacao": "Localização do evento 1"
+        }
+      },
+      "Date": {
+        "type": "string",
+        "format": "date",
+        "examples": ["2022-03-10"]
+      }
+    }
+  },
+  "security": [{ "ApiKeyAuth": [] }],
+  "paths": {
+    "/v2/apikeys/generate/{userId}": {
+      "post": {
+        "summary": "Gerar nova chave de API para um usuário",
+        "description": "Gera uma nova chave de API para o usuário informado. Nível de acesso pode ser definido via parâmetro.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID do usuário para o qual a chave será gerada",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "accessLevel",
+            "in": "query",
+            "description": "Nível de acesso da chave (ex: USER, ADMIN)",
+            "schema": { "type": "string", "default": "USER" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Chave de API gerada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "apiKey": { "type": "string" } }
+                },
+                "example": {
+                  "id": 1,
+                  "apiKey": "hash_api_key_1234",
+                  "usuario": {
+                    "user_id": 1,
+                    "nome": "Lucas",
+                    "sobreNome": "Santos",
+                    "email": "lucas@gmail.com",
+                    "senha": "hash_senha"
+                  },
+                  "accessLevel": "accessLevel TYPE"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não encontrado ou não autorizado a gerar chaves"
+          }
+        },
+        "tags": ["Api Key Resource"]
+      }
+    },
+    "/v2/apikeys/user/{userId}": {
+      "get": {
+        "summary": "Listar chaves de API de um usuário",
+        "description": "Retorna todas as chaves de API associadas ao usuário informado.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de chaves de API retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "string" } },
+                "example": []
+              }
+            }
+          }
+        },
+        "tags": ["Api Key Resource"]
+      }
+    },
+    "/v2/apikeys/{id}": {
+      "delete": {
+        "summary": "Excluir chave de API",
+        "description": "Remove uma chave de API específica pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da chave de API a ser removida",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chave de API removida com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } }
+                },
+                "example": { "message": "Chave removida com sucesso" }
+              }
+            }
+          }
+        },
+        "tags": ["Api Key Resource"]
+      }
+    },
+    "/v2/auth/login": {
+      "post": {
+        "summary": "Realizar login do usuário",
+        "description": "Verifica se o usuário está cadastrado e retorna os dados do usuário autenticado.",
+
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Usuario" },
+                "example": {
+                  "user_id": 1,
+                  "nome": "João",
+                  "sobreNome": "Silva",
+                  "email": "joao@gmail.com"
+                }
+              }
+            }
+          },
+          "404": { "description": "Usuário não encontrado" },
+          "401": { "description": "Senha incorreta" },
+          "400": { "description": "Parâmetros obrigatórios: email e senha" }
+        },
+        "tags": ["Auth Resource"]
+      }
+    },
+    "/v2/eventos": {
+      "get": {
+        "summary": "Listar todos os eventos",
+        "description": "Retorna todos os eventos cadastrados no sistema.",
+        "responses": {
+          "200": {
+            "description": "Eventos encontrados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Evento" }
+                },
+                "examples": {
+                  "Eventos encontrados": {
+                    "description": "Lista de eventos encontrados",
+                    "value": [
+                      {
+                        "evento_id": 1,
+                        "nome": "Evento 1",
+                        "descricao": "Descrição do evento 1",
+                        "dataInicio": "2023-10-01",
+                        "dataFim": "2023-10-02",
+                        "localizacao": "Localização do evento 1"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "204": { "description": "Nenhum evento encontrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Evento Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      },
+      "post": {
+        "summary": "Cadastrar novo evento",
+        "description": "Cadastra um novo evento no sistema.",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Evento" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Evento cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Evento" },
+                "example": {
+                  "evento_id": 3,
+                  "nome": "Evento 3",
+                  "descricao": "Descrição do evento 3",
+                  "dataInicio": "2023-11-01",
+                  "dataFim": "2023-11-02",
+                  "localizacao": "Localização do evento 3"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro ao cadastrar evento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" } }
+                },
+                "example": { "message": "Erro ao cadastrar evento" }
+              }
+            }
+          },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Evento Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      },
+      "put": {
+        "summary": "Atualizar evento",
+        "description": "Essa rota é responsável por atualizar um evento no sistema.Se o evento for atualizado com sucesso, retorna 200.Se o evento não for encontrado, retorna 404.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Evento" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "Evento atualizado com sucesso" },
+          "404": { "description": "Evento não encontrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" },
+          "400": { "description": "Bad Request" }
+        },
+        "tags": ["Evento Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/eventos/deletarEvento/{id}": {
+      "delete": {
+        "summary": "Deletar evento",
+        "description": "Essa rota é responsável por deletar um evento do sistema.Se o evento for deletado com sucesso, retorna 200.Se o evento não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "description": "ID do evento a ser deletado",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Evento deletado com sucesso" },
+          "404": { "description": "Evento não encontrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Evento Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/eventos/findEvento/{id}": {
+      "get": {
+        "summary": "Buscar evento por ID",
+        "description": "Busca e retorna um evento pelo seu ID único.",
+        "parameters": [
+          {
+            "description": "ID do evento a ser buscado",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evento encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Evento" },
+                "example": {
+                  "evento_id": 1,
+                  "nome": "Evento 1",
+                  "descricao": "Descrição do evento 1",
+                  "dataInicio": "2023-10-01",
+                  "dataFim": "2023-10-02",
+                  "localizacao": "Localização do evento 1"
+                }
+              }
+            }
+          },
+          "404": { "description": "Evento não encontrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Evento Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/eventosFav/addEventoFavorito/{userId}/{eventoId}": {
+      "post": {
+        "summary": "Adicionar evento aos favoritos",
+        "description": "Essa rota é responsável por adicionar um evento aos favoritos de um usuário.",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Evento adicionado aos favoritos com sucesso"
+          },
+          "400": { "description": "Parâmetros inválidos" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["EventoFavorito Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/eventosFav/deleteEventoFavorito/{id}": {
+      "delete": {
+        "summary": "Deletar evento favorito",
+        "description": "Essa rota é responsável por deletar um evento favorito de um usuário.",
+        "parameters": [
+          {
+            "description": "ID do conjunto de eventos favorito",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Evento favorito deletado com sucesso" },
+          "404": { "description": "Evento favorito não encontrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["EventoFavorito Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/eventosFav/getAllEventosFavoritos/{userId}": {
+      "get": {
+        "summary": "Listar todos os eventos favoritos de um usuário",
+        "description": "Essa rota é responsável por listar todos os eventos favoritos de um usuário.",
+        "parameters": [
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de eventos favoritos retornada com sucesso"
+          },
+          "404": {
+            "description": "Nenhum evento favorito encontrado para o usuário"
+          },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["EventoFavorito Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/eventosFav/verificarFavorito/{userId}/{eventoId}": {
+      "get": {
+        "summary": "Listar eventos favoritos",
+        "description": "Essa rota é responsável por verificar se um usuário tem um evento favorito.",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["EventoFavorito Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/inscricoes/inscricoesUsuario": {
+      "put": {
+        "summary": "Atualiza a inscrição de um usuário",
+        "description": "Permite alterar o evento de uma inscrição existente",
+        "requestBody": {
+          "description": "Payload contendo userId, eventoAntigoId e eventoNovoId",
+          "content": {
+            "application/json": {
+              "example": {
+                "userId": 1,
+                "eventoAntigoId": 2,
+                "eventoNovoId": 3
+              },
+              "schema": { "type": "object" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "Inscrição atualizada com sucesso" },
+          "404": { "description": "Inscrição ou novo evento não encontrados" },
+          "400": { "description": "Parâmetros inválidos" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Inscricao Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/inscricoes/inscricoesUsuario/estaInscrito/{userId}/{eventoId}": {
+      "get": {
+        "summary": "Verifica se um usuário está inscrito em um evento",
+        "description": "Retorna true se o usuário estiver inscrito no evento, false caso contrário",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Verificação realizada com sucesso" },
+          "400": { "description": "Parâmetros inválidos" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Inscricao Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/inscricoes/inscricoesUsuario/{userId}": {
+      "get": {
+        "summary": "Retorna todas as inscrições de um usuário",
+        "description": "Retorna todas as inscrições de um usuário com base no ID do usuário",
+        "parameters": [
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Inscrições retornadas com sucesso" },
+          "404": { "description": "Usuário não cadastrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Inscricao Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/inscricoes/inscricoesUsuario/{userId}/{eventoId}": {
+      "delete": {
+        "summary": "Remove a inscrição de um usuário em um evento",
+        "description": "Deleta a inscrição com base no ID do usuário e do evento",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Inscrição removida com sucesso" },
+          "404": { "description": "Inscrição não encontrada" },
+          "400": { "description": "Parâmetros inválidos" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Inscricao Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/inscricoes/realizaInscricao/{userId}/{eventoId}": {
+      "post": {
+        "summary": "Inscreve um usuário em um evento",
+        "description": "Inscreve um usuário em um evento com base no ID do usuário e do evento",
+        "parameters": [
+          {
+            "description": "ID do evento",
+            "example": 1,
+            "required": true,
+            "name": "eventoId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "description": "ID do usuário",
+            "example": 1,
+            "required": true,
+            "name": "userId",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Inscricao Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/usuarios": {
+      "get": {
+        "summary": "Listar todos os usuários",
+        "description": "Essa rota é responsável por listar todos os usuários do sistema.",
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Usuario Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      },
+      "post": {
+        "summary": "Cadastrar novo usuário",
+        "description": "Cadastra um novo usuário no sistema.",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "Dados do usuário a serem cadastrados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["nome", "sobreNome", "email", "senha"],
+                "examples": [
+                  {
+                    "nome": "João",
+                    "sobreNome": "Silva",
+                    "email": "joao@gmail.com",
+                    "senha": "senha123"
+                  }
+                ],
+                "description": "Entidade que representa um usuário do sistema",
+                "properties": {
+                  "user_id": { "type": "integer", "format": "int64" },
+                  "nome": { "type": "string" },
+                  "sobreNome": { "type": "string" },
+                  "email": { "type": "string" },
+                  "senha": { "type": "string" }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Usuario" },
+                "example": {
+                  "user_id": 2,
+                  "nome": "Maria",
+                  "sobreNome": "Oliveira",
+                  "email": "maria@gmail.com",
+                  "senha": "senha456"
+                }
+              }
+            }
+          },
+          "400": { "description": "Requisição inválida" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Usuario Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/usuarios/atualizarUsuario/{id}": {
+      "put": {
+        "summary": "Atualizar usuário",
+        "description": "Essa rota é responsável por atualizar um usuário no sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "description": "ID do usuário a ser atualizado",
+            "example": 1,
+            "required": true,
+            "name": "id",
+            "in": "path",
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AtualizarUsuarioDTO" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": { "description": "OK" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Usuario Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/usuarios/deleteUsuario/{id}": {
+      "delete": {
+        "summary": "Deletar usuário",
+        "description": "Essa rota é responsável por deletar um usuário do sistema.Se o usuário for encontrado, retorna 200.Se o usuário não for encontrado, retorna 404.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Usuario Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    },
+    "/v2/usuarios/findUsuario/{id}": {
+      "get": {
+        "summary": "Buscar usuário por ID",
+        "description": "Busca e retorna um usuário pelo seu ID único.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int32" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Usuario" },
+                "example": {
+                  "user_id": 1,
+                  "nome": "João",
+                  "sobreNome": "Silva",
+                  "email": "joao@gmail.com"
+                }
+              }
+            }
+          },
+          "404": { "description": "Usuário não encontrado" },
+          "401": { "description": "Not Authorized" },
+          "403": { "description": "Not Allowed" }
+        },
+        "tags": ["Usuario Resource"],
+        "security": [{ "ApiKeyAuth": [] }]
+      }
+    }
+  }
 }

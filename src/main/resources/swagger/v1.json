@@ -2,16 +2,16 @@
   "openapi": "3.1.0",
   "tags": [
         {
+        "name": "Usuario Resource",
+        "description": "Gerencia usuários do sistema"
+        },
+        {
         "name": "Evento Resource",
         "description": "Gerencia eventos"
         },
         {
         "name": "Inscricao Resource",
         "description": "Gerencia inscrições de usuários em eventos"
-        },
-        {
-        "name": "Usuario Resource",
-        "description": "Gerencia usuários do sistema"
         }
     ],
   "info": {

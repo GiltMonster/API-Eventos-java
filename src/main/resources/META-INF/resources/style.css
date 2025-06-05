@@ -228,8 +228,7 @@ header label {
    CUSTOMIZAÇÃO DO SWAGGER UI
 ======================================== */
 .swagger-ui {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif !important;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 
 .swagger-ui .topbar {
@@ -271,7 +270,7 @@ header label {
   border: 1px solid var(--border) !important;
   box-shadow: var(--shadow-sm) !important;
   padding: 1.5rem !important;
-  margin: 1rem 0 !important;
+  margin: 1rem !important;
 }
 
 .swagger-ui .opblock-tag {
@@ -462,23 +461,22 @@ header label {
 }
 
 /* ========================================
-   LOADING STATE
+   LOADING STATE (customização do loading do Swagger UI)
 ======================================== */
 .swagger-ui .loading-container {
+  /* Customização visual do loading centralizado do Swagger UI */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
   background: var(--bg-card);
   border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
 }
 
 .swagger-ui .loading-container::after {
   content: "";
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--border);
   border-top: 3px solid var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -513,3 +511,4 @@ header label {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
